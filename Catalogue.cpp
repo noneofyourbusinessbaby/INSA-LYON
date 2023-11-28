@@ -77,13 +77,13 @@ void Catalogue::Menu()
             RechercherTrajet();
             break;
         case 4:
-            cout << "Au revoir !" << endl;
+            Sauvegarde();
             break;
-        case 6:
-            CatalogueVersFichier();
-            break; // pour sortir pas besoin de vérifier le reste
         case 5:
             FichierVersCatalogue();
+            break;
+        case 6:
+            cout << "Au revoir !" << endl;
             break;
         default:
             cout << "Erreur de saisie" << endl;
@@ -274,9 +274,9 @@ void Catalogue::printMenu()
     cout << "1. Ajouter un trajet" << endl;
     cout << "2. Afficher le catalogue" << endl;
     cout << "3. Rechercher un trajet" << endl;
-    cout << "4. Quitter" << endl;
+    cout << "4. Sauvegarder le catalogue courant dans un fichier" << endl;
     cout << "5. Charger le fichier dans le catalogue" << endl;
-    cout << "6. Charger le fcatalogue dans un fichier" << endl;
+    cout << "6. Quitter" << endl;
     cout << "Votre choix : ";
 }
 

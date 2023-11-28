@@ -82,10 +82,15 @@ protected:
     Tab *conversionDonneesVersTableauSansCritere(ifstream &file, int nblignes, int nbcolonnes);
     
     Collection *recsel(string **tableau, int abs, int colonne, int nblignes, string depart, string arrivee);
+
     Tab *conversionDonneesVersTableauSelonTypeTrajet(ifstream &file, int nblignes, int nbcolonnes, string chaine);
+
     Tab *conversionDonneesVersTableauSelonVilles(ifstream &file, int nblignes, int nbcolonnes, string depart, string arrivee);
+
     string **conversionDonneesVersTableauSelonTypeTrajet(ifstream &file, int nblignes, int nbcolonnes);
+
     Collection *rec2(string **tableau, int abs, int colonne, int nblignes);
+
     bool verifieSiExisteCatalogue(Trajet *unTrajet);
     // Mode d'emploi : Ajoute un trajet composé au catalogue
     // Contrat : Aucun
@@ -98,7 +103,6 @@ protected:
 
     // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue sans critères de sélection
     // Contrat : Aucun
-
     void FichierVersCatalogue();
 
     void CatalogueVersFichier();
