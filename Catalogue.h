@@ -9,6 +9,7 @@
 //------------------------------------------------------------- Constantes
 
 //------------------------------------------------------------------ Types
+#include <string>
 //------------------------------------------------------------------------//
 // Rôle de la classe <Catalogue>
 // Description :
@@ -71,6 +72,10 @@ protected:
     // Contrat : Aucun
 
     void ajoutTrajetCompose();
+    string **conversionDonneesVersTableau(ifstream &file, int nblignes, int nbcolonnes);
+    string **conversionVersTableau(ifstream &file, int nblignes, int nbcolonnes);
+    Collection *rec2(string **tableau, int abs, int colonne, int nblignes);
+    bool verifieSiExisteCatalogue(Trajet *unTrajet);
     // Mode d'emploi : Ajoute un trajet composé au catalogue
     // Contrat : Aucun
 
@@ -78,13 +83,16 @@ protected:
     // Mode d'emploi : Affiche le menu de chargement du fichier vers le catalogue et vice versa
     // Contrat : Aucun
 
-    void FichierVersCatalogueSansCriteres();
     // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue sans critères de sélection
     // Contrat : Aucun
 
     void FichierVersCatalogue();
+
     void CatalogueVersFichier();
 
+    void FichierVersCatalogueSansCriteres();
+
+    void FichierVersCatalogueSansCriteres(ifstream &file, int nblignes, int nbcolonnes);
 
     void FichierVersCatalogueSelonTypeTrajet();
     // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon le type de trajet

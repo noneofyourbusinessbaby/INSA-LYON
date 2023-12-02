@@ -1,0 +1,8 @@
+Depart;Arrivee;Transport
+Paris;Lyon;Train
+Lyon;Marseille;Avion
+Rennes;Paris;Train
+;;
+Depart;Arrivee;Composition
+Paris;Marseille;"[Paris,Lyon,Train;Lyon,Marseille,Avion]"
+Rennes;Marseille;"[Rennes,Paris,Train[Paris,Lyon,Train;Lyon,Marseille,Avion]]"
