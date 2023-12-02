@@ -74,6 +74,47 @@ protected:
     // Mode d'emploi : Ajoute un trajet composé au catalogue
     // Contrat : Aucun
 
+    void printCatlogueVersFichierViceVersa();
+    // Mode d'emploi : Affiche le menu de chargement du fichier vers le catalogue et vice versa
+    // Contrat : Aucun
+
+    void FichierVersCatalogueSansCriteres();
+    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue sans critères de sélection
+    // Contrat : Aucun
+
+    void FichierVersCatalogue();
+    void CatalogueVersFichier();
+
+
+    void FichierVersCatalogueSelonTypeTrajet();
+    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon le type de trajet
+    // Contrat : Aucun
+
+    void FichierVersCatalogueSelonVilles();
+    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon la ville de départ et d'arrivée
+    // Contrat : Aucun
+
+    void FichierVersCatalogueSelonSelection();
+    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon une sélection de villes
+    // Contrat : Aucun
+
+    void CatalogueVersFichierSansCriteres();
+    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue sans critères de sélection
+    // Contrat : Aucun
+
+    void CatalogueVersFichierSelonTypeTrajet();
+    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon le type de trajet
+    // Contrat : Aucun
+
+    void CatalogueVersFichierSelonVilles();
+    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon la ville de départ et d'arrivée
+    // Contrat : Aucun
+
+    void CatalogueVersFichierSelonSelection();
+    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon une sélection de villes
+    // Contrat : Aucun
+
+
 //-------------------------------------------------------------Attributs protégés
     Collection *c;
 

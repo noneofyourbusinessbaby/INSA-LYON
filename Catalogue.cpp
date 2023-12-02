@@ -54,7 +54,7 @@ void Catalogue::Menu()
     int choix;
     do {
         printMenu();
-        cin >> choix;
+        cin >> choix; // on imprime le menu et on attend une entrée 
         if(cin.fail()){
             cin.clear();
             cin.ignore();
@@ -73,6 +73,12 @@ void Catalogue::Menu()
             case 4:
                 cout << "Au revoir !" << endl;
                 break;
+            case 5:
+                CatalogueVersFichier();
+                break; // pour sortir pas besoin de vérifier le reste 
+            case 6:
+                FichierVersCatalogue();
+                break;
             default:
                 cout << "Erreur de saisie" << endl;
                 break;
@@ -80,10 +86,130 @@ void Catalogue::Menu()
     } while (choix != 4);
 }
 
-
 //------------------------------------------------------------------ PRIVE
 
 //----------------------------------------------------- Méthodes protégées
+
+void Catalogue::printCatlogueVersFichierViceVersa()
+{
+    cout << "------------------------------------------" << endl;
+    cout << "1. Sans critère  de sélection" << endl;
+    cout << "2. Selon le type de trajets" << endl;
+    cout << "3. Selon la ville de départ et d'arrivée" << endl;
+    cout << "4. Selon une sélection de trajets" << endl;
+    cout << "5. Retour" << endl;
+    cout << "Votre choix : ";
+}
+
+void Catalogue::CatalogueVersFichier()
+{
+    int choix;
+    do{
+        printCatlogueVersFichierViceVersa();
+        cin >> choix;
+        if(cin.fail()){
+            cin.clear();
+            cin.ignore();
+            choix = 0;
+        }
+        switch (choix) {
+            case 1:
+                CatalogueVersFichierSansCriteres();
+                break;
+            case 2:
+                CatalogueVersFichierSelonTypeTrajet();
+                break;
+            case 3:
+                CatalogueVersFichierSelonVilles();
+                break;
+            case 4:
+                CatalogueVersFichierSelonSelection();
+                break;
+            case 5:
+                break;
+            default:
+                cout << "Erreur de saisie" << endl;
+                break;
+        }
+    }while(choix != 5);
+
+}
+
+void Catalogue::CatalogueVersFichierSansCriteres()
+{
+
+}
+
+void Catalogue::CatalogueVersFichierSelonTypeTrajet()
+{
+
+}
+
+void Catalogue::CatalogueVersFichierSelonSelection()
+{
+
+}
+
+void Catalogue::CatalogueVersFichierSelonVilles()
+{
+
+}
+
+
+
+void Catalogue::FichierVersCatalogue()
+{
+    int choix;
+    do{
+        printCatlogueVersFichierViceVersa();
+        cin >> choix;
+        if(cin.fail()){
+            cin.clear();
+            cin.ignore();
+            choix = 0;
+        }
+        switch (choix) {
+            case 1:
+                FichierVersCatalogueSansCriteres();
+                break;
+            case 2:
+                FichierVersCatalogueSelonTypeTrajet();
+                break;
+            case 3:
+                FichierVersCatalogueSelonVilles();
+                break;
+            case 4:
+                FichierVersCatalogueSelonSelection();
+                break;
+            case 5:
+                break;
+            default:
+                cout << "Erreur de saisie" << endl;
+                break;
+        }
+    }while(choix != 5);
+
+}
+
+void Catalogue::FichierVersCatalogueSansCriteres()
+{
+
+}
+
+void Catalogue::FichierVersCatalogueSelonTypeTrajet()
+{
+
+}
+
+void Catalogue::FichierVersCatalogueSelonSelection()
+{
+
+}
+
+void Catalogue::FichierVersCatalogueSelonVilles()
+{
+
+}
 
 void Catalogue::RechercherTrajet()
 {
@@ -113,6 +239,8 @@ void Catalogue::printMenu()
     cout << "2. Afficher le catalogue" << endl;
     cout << "3. Rechercher un trajet" << endl;
     cout << "4. Quitter" << endl;
+    cout << "5. Charger le fichier dans le catalogue" << endl;
+    cout << "6. Charger le fcatalogue dans un fichier" << endl;
     cout << "Votre choix : ";
 }
 
