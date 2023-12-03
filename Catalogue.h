@@ -10,22 +10,28 @@
 
 //------------------------------------------------------------------ Types
 #include <string>
+using namespace std;
 //------------------------------------------------------------------------//
 // Rôle de la classe <Catalogue>
 // Description :
 //------------------------------------------------------------------------//
+typedef struct Tab
+{
+    string **table;
+    int nb;
+};
 
 class Catalogue
 {
-//----------------------------------------------------------------- PUBLIC
+    //----------------------------------------------------------------- PUBLIC
 public:
-//-----------------------------------------------------------------Méthodes publiques
+    //-----------------------------------------------------------------Méthodes publiques
 
     void Afficher();
     // Mode d'emploi : Affiche le contenu du catalogue
     // Contrat :
 
-    void AjouterTrajet(Trajet* unTrajet);
+    void AjouterTrajet(Trajet *unTrajet);
     // Mode d'emploi : Ajoute un trajet au catalogue
     // Contrat :
 
@@ -33,24 +39,24 @@ public:
 
     void RechercherTrajet();
 
-//---------------------------------------------------------------Surcharge d'opérateurs
+    //---------------------------------------------------------------Surcharge d'opérateurs
 
-//-----------------------------------------------------Constructeurs - Destructeur
-    Catalogue ( Catalogue const & unCatalogue );
+    //-----------------------------------------------------Constructeurs - Destructeur
+    Catalogue(Catalogue const &unCatalogue);
     // Mode d'emploi (constructeur de copie) :
     // Contrat :
 
-    Catalogue ( );
+    Catalogue();
     // Mode d'emploi (Constructeur par défaut) :
     // Contrat :
 
-    virtual ~Catalogue ( );
+    virtual ~Catalogue();
     // Mode d'emploi :
     // Contrat :
 
-//------------------------------------------------------------------ PRIVE
+    //------------------------------------------------------------------ PRIVE
 protected:
-//-----------------------------------------------------------Méthodes protégées
+    //-----------------------------------------------------------Méthodes protégées
     // type méthode ( liste des paramètres );
     // Mode d'emploi :
     // Contrat :
@@ -69,15 +75,22 @@ protected:
 
     void ajoutTrajetSimple();
     // Mode d'emploi : Ajoute un trajet simple au catalogue
-    // Contrat : Aucun
+    // Contrat
+    Tab *conversionDonneesVersTableauSelonSelection(ifstream &file, int nblignes, int nbcolonnes,int debut,int fin);
 
     void ajoutTrajetCompose();
-    string **conversionDonneesVersTableau(ifstream &file, int nblignes, int nbcolonnes);
-    string **conversionVersTableau(ifstream &file, int nblignes, int nbcolonnes);
+    Tab *conversionDonneesVersTableauSansCritere(ifstream &file, int nblignes, int nbcolonnes);
+    
+    Collection *recsel(string **tableau, int abs, int colonne, int nblignes, string depart, string arrivee);
+    Tab *conversionDonneesVersTableauSelonTypeTrajet(ifstream &file, int nblignes, int nbcolonnes, string chaine);
+    Tab *conversionDonneesVersTableauSelonVilles(ifstream &file, int nblignes, int nbcolonnes, string depart, string arrivee);
+    string **conversionDonneesVersTableauSelonTypeTrajet(ifstream &file, int nblignes, int nbcolonnes);
     Collection *rec2(string **tableau, int abs, int colonne, int nblignes);
     bool verifieSiExisteCatalogue(Trajet *unTrajet);
     // Mode d'emploi : Ajoute un trajet composé au catalogue
     // Contrat : Aucun
+
+    void FichierVersCatalogueSelonTypeTrajet(ifstream &file, int nblignes, int nbcolonnes, int nb);
 
     void printCatlogueVersFichierViceVersa();
     // Mode d'emploi : Affiche le menu de chargement du fichier vers le catalogue et vice versa
@@ -89,8 +102,6 @@ protected:
     void FichierVersCatalogue();
 
     void CatalogueVersFichier();
-
-    void FichierVersCatalogueSansCriteres();
 
     void FichierVersCatalogueSansCriteres(ifstream &file, int nblignes, int nbcolonnes);
 
@@ -122,14 +133,10 @@ protected:
     // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon une sélection de villes
     // Contrat : Aucun
 
-
-//-------------------------------------------------------------Attributs protégés
+    //-------------------------------------------------------------Attributs protégés
     Collection *c;
-
 };
 
 //-------------------------------- Autres définitions dépendantes de <Classe>
-
-
 
 #endif // !defined CLASSE_H
