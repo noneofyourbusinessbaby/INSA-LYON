@@ -6,24 +6,24 @@ OBJ =  main.o Catalogue.o Collection.o Trajet.o TrajetCompose.o TrajetSimple.o
 GCC = g++
 
 $(EXE) : $(OBJ) # dépendance
-	$(GCC) -o $(EXE) $(OBJ)
+	$(GCC) -o $(EXE) $(OBJ) 
 # règle explicite pour la compilation de main.cpp
 main.o : main.cpp # dépendance
-	$(GCC) -c main.cpp $(CPPFLAGS)
+	$(GCC) -c main.cpp $(CPPFLAGS) 
 # règle explicite pour la compilation de Catalogue.cpp
 Catalogue.o : Catalogue.h Catalogue.cpp # dépendance
-	$(GCC) -c Catalogue.cpp $(CPPFLAGS)
+	$(GCC) -c Catalogue.cpp $(CPPFLAGS) 
 # règle explicite pour la compilation de Collection
 Collection.o : Collection.h Collection.cpp # dépendance
-	$(GCC) -c Collection.cpp $(CPPFLAGS)
+	$(GCC) -c Collection.cpp $(CPPFLAGS) 
 # règle explicite pour la compilation de Trajet.cpp
 Trajet.o : Trajet.h Trajet.cpp # dépendance
-	$(GCC) -c Trajet.cpp $(CPPFLAGS)
+	$(GCC) -c Trajet.cpp $(CPPFLAGS) 
 # règle explicite pour la compilation de TrajetCompose
 Trajetcompose.o : TrajetCompose.h TrajetCompose.cpp # dépendance
-	$(GCC) -c TrajetCompose.cpp $(CPPFLAGS)
+	$(GCC) -c TrajetCompose.cpp $(CPPFLAGS) 
 # règle explicite pour la compilation de TrajetSimple
 Trajetsimple.o : TrajetSimple.h TrajetSimple.cpp # dépendance
-	$(GCC) -c TrajetSimple.cpp $(CPPFLAGS)
+	$(GCC) -c TrajetSimple.cpp $(CPPFLAGS) 
 clean:
 	rm -f $(EXE) $(OBJ)
