@@ -8,6 +8,7 @@
 
 //------------------------------------------------------------- Constantes
 const char SEP = ';';
+const char SEP = ';';
 //------------------------------------------------------------------ Types
 
 // Rôle de la classe <Catalogue>
@@ -37,6 +38,8 @@ public:
     void SauvegardeCompose(ofstream&, Trajet*, int, int, char*, char*);
 
     void Sauvegarde();
+
+//---------------------------------------------------------------Surcharge d'opérateurs
 
 //-----------------------------------------------------Constructeurs - Destructeur
     Catalogue ( Catalogue const & unCatalogue );
@@ -77,6 +80,10 @@ protected:
 
     void ajoutTrajetCompose();
     // Mode d'emploi : Ajoute un trajet composé au catalogue
+    // Contrat : Aucun
+
+    void choixSauvegarde();
+    // Mode d'emploi : Selection du scénario pour la sauvegarde
     // Contrat : Aucun
 
     void choixSauvegarde();

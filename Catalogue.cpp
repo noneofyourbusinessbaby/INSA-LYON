@@ -6,6 +6,7 @@ using namespace std;
 #include <iostream>
 #include <cstring>
 #include <fstream>
+#include <fstream>
 //------------------------------------------------------ Include personnel
 #include "Catalogue.h"
 #include "TrajetSimple.h"
@@ -71,6 +72,9 @@ void Catalogue::Menu()
                 RechercherTrajet();
                 break;
             case 4:
+                Sauvegarde();
+                break;
+            case 5:
                 Sauvegarde();
                 break;
             case 5:
@@ -356,6 +360,7 @@ void Catalogue::Sauvegarde()
                             SauvegardeCompose(fic, head->t, 0);
                         }
                         while(head->t != tail->t && compteur <= m);     
+
                     }
                     fic.close();
                 } else {
