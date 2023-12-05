@@ -33,6 +33,9 @@ public:
     // Mode d'emploi : Renvoi la ville d'arrivée
     // Contrat : Aucun
     //
+    virtual char* getMoyenTransport();
+
+    Collection* getLesTrajets();
 
     TrajetCompose* Copie();
 

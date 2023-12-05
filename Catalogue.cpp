@@ -5,7 +5,7 @@
 using namespace std;
 #include <iostream>
 #include <cstring>
-
+#include <fstream>
 //------------------------------------------------------ Include personnel
 #include "Catalogue.h"
 #include "TrajetSimple.h"
@@ -71,15 +71,308 @@ void Catalogue::Menu()
                 RechercherTrajet();
                 break;
             case 4:
+                Sauvegarde();
+                break;
+            case 5:
                 cout << "Au revoir !" << endl;
                 break;
             default:
                 cout << "Erreur de saisie" << endl;
                 break;
         }
-    } while (choix != 4);
+    } while (choix != 5);
 }
 
+void Catalogue::SauvegardeCompose(ofstream& fic, Trajet* trajet, int compteurSep, int trajetUnique = 0, char* depart = nullptr, char* arrivee = nullptr)
+{
+    TrajetCompose* trajetCompose = dynamic_cast<TrajetCompose*>(trajet);
+    
+    if (trajetCompose && trajetUnique != 1) {
+        for(int i = 0; i < compteurSep; i++)
+        {
+            fic << SEP;
+        }
+        if(depart != nullptr && arrivee != nullptr)
+        {
+            if(strcmp(trajet->getVilleDepart(), depart) == 0 && strcmp(trajet->getVilleArrivee(), arrivee) == 0)
+            {
+                fic << "c" << SEP << trajet->getVilleDepart() << SEP << trajet->getVilleArrivee() << "\n";
+            }
+            else
+            {
+                return;
+            }
+        } else if (depart != nullptr) {
+            if(strcmp(trajet->getVilleDepart(), depart) == 0)
+            {
+                fic << "c" << SEP << trajet->getVilleDepart() << SEP << trajet->getVilleArrivee() << "\n";
+            }
+        } else if (arrivee != nullptr) {
+            if(strcmp(trajet->getVilleArrivee(), arrivee) == 0)
+            {
+                fic << "c" << SEP << trajet->getVilleDepart() << SEP << trajet->getVilleArrivee() << "\n";
+            }
+        } else {
+            fic << "c" << SEP << trajet->getVilleDepart() << SEP << trajet->getVilleArrivee() << "\n";
+        }
+        Collection* listeTrajets = trajetCompose->getLesTrajets();
+        Cellule* head = listeTrajets->GetHead();
+        while(head)
+        {
+            SauvegardeCompose(fic, head->t, compteurSep + 1, 0, depart, arrivee);
+            head = head->suivant;
+        }
+    } else if (!trajetCompose && trajetUnique != 2){
+        for(int i = 0; i < compteurSep; i++)
+        {
+            fic << SEP;
+        }
+        if(depart != nullptr && arrivee != nullptr)
+        {
+            if(strcmp(trajet->getVilleDepart(), depart) == 0 && strcmp(trajet->getVilleArrivee(), arrivee) == 0)
+            {
+                fic << "s" << SEP << trajet->getVilleDepart() << SEP << trajet->getVilleArrivee() << SEP << trajet->getMoyenTransport() << "\n";
+            }
+        } else if (depart != nullptr) {
+            if(strcmp(trajet->getVilleDepart(), depart) == 0)
+            {
+                fic << "s" << SEP << trajet->getVilleDepart() << SEP << trajet->getVilleArrivee() << SEP << trajet->getMoyenTransport() << "\n";
+            }
+        } else if (arrivee != nullptr) {
+            if(strcmp(trajet->getVilleArrivee(), arrivee) == 0)
+            {
+                fic << "s" << SEP << trajet->getVilleDepart() << SEP << trajet->getVilleArrivee() << SEP << trajet->getMoyenTransport() << "\n";
+            }
+        } else {
+            fic << "s" << SEP << trajet->getVilleDepart() << SEP << trajet->getVilleArrivee() << SEP << trajet->getMoyenTransport() << "\n";
+        }
+    }
+}
+
+void Catalogue::Sauvegarde()
+{
+    choixSauvegarde();
+    int choix;
+    cin >> choix;
+    ofstream fic;
+    int index = 0;
+    fic.open("FichierEntreeSortie.csv");
+    switch (choix) {
+        case 1: // sans critère de séléction
+            if(fic.is_open())
+            {
+                Cellule* head = c->GetHead();
+                Cellule* tail = c->GetTail();
+                do
+                {
+                    if(index)
+                    {
+                        head = head->suivant;
+                    }
+                    else
+                    {
+                        index = 1;
+                    }
+                    SauvegardeCompose(fic, head->t, 0);
+                }
+                while(head->t != tail->t);     
+                fic.close();
+                cout << "Fichier modifié" << endl;
+            } else {
+                cout << "Erreur d'ouverture du fichier" << endl;
+            }
+            break;
+        case 2: // Selon le type de trajet
+            cout << "------------------------------------------" << endl;
+            cout << "TRAJET SIMPLE OU COMPOSE ?" << endl;
+            cout << "1. Trajet simple" << endl;
+            cout << "2. Trajet compose" << endl;
+            int choix;
+            cin >> choix;
+            if(choix != 1 && choix != 2)
+            {
+                cout << "Erreur de saisie" << endl;
+                break;
+            }
+            if(fic.is_open())
+            {
+                Cellule* head = c->GetHead();
+                Cellule* tail = c->GetTail();
+                do
+                {
+                    if(index)
+                    {
+                        head = head->suivant;
+                    }
+                    else
+                    {
+                        index = 1;
+                    }
+                    SauvegardeCompose(fic, head->t, 0, choix);
+                }
+                while(head->t != tail->t);
+                fic.close();
+                cout << "Fichier modifié" << endl;
+            }
+            break;
+        case 3: // Selon la ville de départ/arrivée
+            cout << "------------------------------------------" << endl;
+            cout << "CHOISIR UN DEPART, UNE ARRIVEE OU LES DEUX" << endl;
+            cout << "1. Depart" << endl;
+            cout << "2. Arrivee" << endl;
+            cout << "3. Depart/Arrivee" << endl;
+            int choixDepArr;
+            cin >> choixDepArr;
+            char* selectionDepart, * selectionArrivee;
+            selectionDepart = new char[100];
+            selectionArrivee = new char[100];
+            switch (choixDepArr)
+            {
+            case 1:
+                cout << "Veuillez saisir un depart" << endl;
+                cin >> selectionDepart;
+                if(fic.is_open() && selectionDepart)
+                {
+                    Cellule* head = c->GetHead();
+                    Cellule* tail = c->GetTail();
+                    index = 0;
+                    do
+                    {
+                        if(index)
+                        {
+                            head = head->suivant;
+                        }
+                        else
+                        {
+                            index = 1;
+                        }
+                        SauvegardeCompose(fic, head->t, 0, 0, selectionDepart);
+                    }
+                    while(head->t != tail->t);
+                    fic.close();
+                    cout << "Fichier modifié" << endl;
+                }
+                break;
+            case 2:
+                cout << "Veuillez saisir une arrivée" << endl;
+                cin >> selectionArrivee;
+                if(fic.is_open() && selectionArrivee)
+                {
+                    Cellule* head = c->GetHead();
+                    Cellule* tail = c->GetTail();
+                    index = 0;
+                    do
+                    {
+                        if(index)
+                        {
+                            head = head->suivant;
+                        }
+                        else
+                        {
+                            index = 1;
+                        }
+                        SauvegardeCompose(fic, head->t, 0, 0, nullptr, selectionArrivee);
+                    }
+                    while(head->t != tail->t);
+                    fic.close();
+                    cout << "Fichier modifié" << endl;
+                }
+                break;
+            case 3:
+                cout << "Veuillez saisir un depart" << endl;
+                cin >> selectionDepart;
+                cout << "Veuillez saisir une arrivée" << endl;
+                cin >> selectionArrivee;
+                if(fic.is_open() && selectionDepart && selectionArrivee)
+                {
+                    index = 0;
+                    Cellule* head = c->GetHead();
+                    Cellule* tail = c->GetTail();
+                    do
+                    {
+                        if(index)
+                        {
+                            head = head->suivant;
+                        }
+                        else
+                        {
+                            index = 1;
+                        }
+                        SauvegardeCompose(fic, head->t, 0, 0, selectionDepart, selectionArrivee);
+                    }
+                    while(head->t != tail->t);
+                    fic.close();
+                    cout << "Fichier modifié" << endl;
+                }
+                break;
+            default:
+                cout << "Erreur de saisie" << endl;
+                break;
+            }
+            break;
+        case 4: // selon un intervalle de trajet avec n le premier trajet et m le dernier
+            int n, m;
+            cout << "------------------------------------------" << endl;
+            cout << "INDICE DU PREMIER/DERNIER TRAJET ?" << endl;
+            cout << "1. Veuillez saisir l'indice du premier trajet" << endl;
+            cin >> n;
+            cout << "2. Veuillez saisir l'indice du dernier trajet" << endl;
+            cin >> m;
+            if(m <= n)
+            {
+                cout << "Le dernier trajet doit etre inferieur à la position du premier et doit avoir un ecart d'au moins 1 trajet" << endl;
+                break;
+            } else {
+                if(fic.is_open())
+                {
+                    Cellule* head = c->GetHead();
+                    Cellule* tail = c->GetTail();
+                    int skip = 0;
+                    int compteur = 0;
+                    for(int i = 1; i < n; i++)
+                    {
+                        if(head->t == tail->t)
+                        {
+                            cout << "L'indice du premier trajet est supérieur au nombre de trajet" << endl;
+                            skip = 1;
+                            break;
+                        }
+                        compteur++;
+                        head = head->suivant;
+                    }
+                    if(!skip)
+                    {
+                        do
+                        {
+                            compteur++;
+                            if(index)
+                            {
+                                head = head->suivant;
+                            }
+                            else
+                            {
+                                index = 1;
+                            }
+                            SauvegardeCompose(fic, head->t, 0);
+                        }
+                        while(head->t != tail->t && compteur <= m);     
+
+                    }
+                    fic.close();
+                } else {
+                    cout << "Erreur d'ouverture du fichier" << endl;
+                }
+                break;
+            }
+        default:
+            cout << "Erreur de saisie" << endl;
+            if(fic.is_open())
+            {
+                fic.close();
+            }
+            break;
+    }
+}
 
 //------------------------------------------------------------------ PRIVE
 
@@ -112,8 +405,21 @@ void Catalogue::printMenu()
     cout << "1. Ajouter un trajet" << endl;
     cout << "2. Afficher le catalogue" << endl;
     cout << "3. Rechercher un trajet" << endl;
-    cout << "4. Quitter" << endl;
+    cout << "4. Sauvegarder le catalogue courant dans un fichier" << endl;
+    cout << "5. Quitter" << endl;
     cout << "Votre choix : ";
+}
+
+void Catalogue::choixSauvegarde()
+{
+    cout << "------------------------------------------" << endl;
+    cout << "CHOIX DU TYPE DE SAUVEGARDE" << endl;
+    cout << "1. Sans critère de sélection" << endl;
+    cout << "2. Selon le type de trajet" << endl;
+    cout << "3. Selon la ville de départ et / ou la ville d'arrivée" << endl;
+    cout << "4. Selon une sélection de trajets" << endl;
+    cout << "5. Quitter" << endl;
+    cout << "Votre choix :";
 }
 
 void Catalogue::ajoutTrajetSimple()

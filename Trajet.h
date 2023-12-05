@@ -31,6 +31,10 @@ public:
     // Mode d'emploi : Renvoi la ville d'arrivée
     // Contrat : Aucun
     //
+    virtual char* getMoyenTransport() = 0;
+    // Mode d'emploi : Renvoi le moyen de transport
+    // Contrat : Aucun
+    //
     virtual Trajet* Copie() = 0;
 //---------------------------------------------------------------Surcharge d'opérateurs
 

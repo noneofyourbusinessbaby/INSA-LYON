@@ -7,7 +7,7 @@
 #include "Collection.h"
 
 //------------------------------------------------------------- Constantes
-
+const char SEP = ';';
 //------------------------------------------------------------------ Types
 //------------------------------------------------------------------------//
 // Rôle de la classe <Catalogue>
@@ -31,6 +31,10 @@ public:
     void Menu();
 
     void RechercherTrajet();
+
+    void SauvegardeCompose(ofstream&, Trajet*, int, int, char*, char*);
+
+    void Sauvegarde();
 
 //---------------------------------------------------------------Surcharge d'opérateurs
 
@@ -72,6 +76,10 @@ protected:
 
     void ajoutTrajetCompose();
     // Mode d'emploi : Ajoute un trajet composé au catalogue
+    // Contrat : Aucun
+
+    void choixSauvegarde();
+    // Mode d'emploi : Selection du scénario pour la sauvegarde
     // Contrat : Aucun
 
 //-------------------------------------------------------------Attributs protégés
