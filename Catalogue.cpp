@@ -13,14 +13,7 @@ using namespace std;
 #include "Catalogue.h"
 #include "TrajetSimple.h"
 #include "TrajetCompose.h"
-
-//------------------------------------------------------------- Constantes
-
-//----------------------------------------------------------------- PUBLIC
-
-//----------------------------------------------------- Méthodes publiques
-
-//------------------------------------------------- Surcharge d'opérateurs
+#include "tab.h"
 
 //-------------------------------------------- Constructeurs - destructeur
 Catalogue::Catalogue()
@@ -38,6 +31,8 @@ Catalogue::~Catalogue()
 #endif
     delete c;
 }
+
+//----------------------------------------------------- Méthodes protégées
 
 void Catalogue::Afficher()
 {
@@ -58,7 +53,7 @@ void Catalogue::Menu()
     do
     {
         printMenu();
-        cin >> choix; // on imprime le menu et on attend une entrée
+        cin >> choix;
         if (cin.fail())
         {
             cin.clear();
@@ -398,92 +393,6 @@ void Catalogue::printCatlogueVersFichierViceVersa()
     cout << "Votre choix : ";
 }
 
-void Catalogue::FichierVersCatalogue()
-{
-    int choix;
-    do
-    {
-        printCatlogueVersFichierViceVersa();
-        cin >> choix;
-        if (cin.fail())
-        {
-            cin.clear();
-            cin.ignore();
-            choix = 0;
-        }
-        string line;
-        ifstream file;
-        string file_name, chaine, depart, arrivee;
-        int nblignes, nbcolonnes, deb, fin;
-        cout << "Donnez le nb de lignes de ce fichier" << endl;
-        cin >> nblignes;
-        cout << "Donnez le nb de colonnes max dans ce fichier" << endl;
-        cin >> nbcolonnes;
-        cout << "Veuillez saisir le nom du fichier celui-ci doit être au format csv" << endl;
-        cin >> file_name;
-        file.open(file_name.c_str());
-        switch (choix)
-        {
-        case 1:
-            if (file.is_open())
-            {
-                Tab *table = Catalogue::conversionDonneesVersTableauSansCritere(file, nblignes, nbcolonnes);
-                Catalogue::rec2(table->table, 0, 0, table->nb);
-                c->Afficher();
-                file.close();
-            }
-            else
-                cout << "Nous n'avons pas réussi à ouvrir le fichier" << endl;
-            break;
-        case 2:
-            if (file.is_open())
-            {
-                cout << "Saissisez 's' pour choisir de charger exclusivement les trajets simples et 'c' pour choisir de charger les trajets composés" << endl;
-                cin >> chaine;
-                Tab *table = Catalogue::conversionDonneesVersTableauSelonTypeTrajet(file, nblignes, nbcolonnes, chaine);
-                Catalogue::rec2(table->table, 0, 0, table->nb);
-                c->Afficher();
-            }
-            break;
-        case 3:
-            cout << "Saissisez la ville de depart" << endl;
-            cin >> depart;
-            cout << "Saissisez la ville d'arrivee" << endl;
-            cin >> arrivee;
-            if (file.is_open())
-            {
-                Tab *table = Catalogue::conversionDonneesVersTableauSansCritere(file, nblignes, nbcolonnes);
-                Catalogue::recsel(table->table, 0, 0, table->nb, depart, arrivee);
-                c->Afficher();
-                file.close();
-            }
-            else
-                cout << "Nous n'avons pas réussi à ouvrir le fichier" << endl;
-            break;
-        case 4:
-            cout << "Saissisez l'indice du premier trajet" << endl;
-            cin >> deb;
-            cout << "Saissisez l'indice du dernier trajet" << endl;
-            cin >> fin;
-            if (file.is_open())
-            {
-                Tab *table = Catalogue::conversionDonneesVersTableauSelonSelection(file, nblignes, nbcolonnes, deb, fin);
-                Catalogue::rec2(table->table, 0, 0, table->nb);
-                c->Afficher();
-                file.close();
-            }
-            else
-                cout << "Nous n'avons pas réussi à ouvrir le fichier" << endl;
-            break;
-        case 5:
-            break;
-        default:
-            cout << "Erreur de saisie" << endl;
-        }
-
-    } while (choix != 5);
-}
-
 void Catalogue::RechercherTrajet()
 {
     char depart[100];
@@ -515,6 +424,48 @@ void Catalogue::printMenu()
     cout << "5. Charger le fichier dans le catalogue" << endl;
     cout << "6. Quitter" << endl;
     cout << "Votre choix : ";
+}
+
+void Catalogue::ajoutTrajetCompose()
+{
+    int choice = 1;
+    char depart[100];
+    char arrivee[100];
+    char moyen[100];
+    cout << "------------------------------------------" << endl;
+    cout << "Ajout d'un trajet composé" << endl;
+    cout << "Choix de la ville de départ : " << endl;
+    cin >> depart;
+    cout << "Choix du premier arrêt : " << endl;
+    cin >> arrivee;
+    cout << "Choix du moyen de transport : " << endl;
+    cin >> moyen;
+    Collection *listeTrajet = new Collection();
+    listeTrajet->AjouterFin(new TrajetSimple(depart, arrivee, moyen));
+    cout << "Choix de l'arrêt suivant : " << endl;
+    strcpy(depart, arrivee);
+    cin >> arrivee;
+    cout << "Choix du moyen de transport : " << endl;
+    cin >> moyen;
+    listeTrajet->AjouterFin(new TrajetSimple(depart, arrivee, moyen));
+    while (choice != 0)
+    {
+        strcpy(depart, arrivee);
+        cout << "Choix de l'arrêt suivant (0 pour terminer) : " << endl;
+        cin >> arrivee;
+        if (strcmp(arrivee, "0") == 0)
+        {
+            choice = 0;
+        }
+        else
+        {
+            cout << "Choix du moyen de transport : " << endl;
+            cin >> moyen;
+            listeTrajet->AjouterFin(new TrajetSimple(depart, arrivee, moyen));
+        }
+    }
+    TrajetCompose *trajetCompose = new TrajetCompose(listeTrajet);
+    c->AjouterFin(trajetCompose);
 }
 
 void Catalogue::choixSauvegarde()
@@ -584,46 +535,88 @@ void Catalogue::printAjoutTrajet()
     cout << "Votre choix : ";
 }
 
-void Catalogue::ajoutTrajetCompose()
+
+void Catalogue::CatalogueVersFichier()
 {
-    int choice = 1;
-    char depart[100];
-    char arrivee[100];
-    char moyen[100];
-    cout << "------------------------------------------" << endl;
-    cout << "Ajout d'un trajet composé" << endl;
-    cout << "Choix de la ville de départ : " << endl;
-    cin >> depart;
-    cout << "Choix du premier arrêt : " << endl;
-    cin >> arrivee;
-    cout << "Choix du moyen de transport : " << endl;
-    cin >> moyen;
-    Collection *listeTrajet = new Collection();
-    listeTrajet->AjouterFin(new TrajetSimple(depart, arrivee, moyen));
-    cout << "Choix de l'arrêt suivant : " << endl;
-    strcpy(depart, arrivee);
-    cin >> arrivee;
-    cout << "Choix du moyen de transport : " << endl;
-    cin >> moyen;
-    listeTrajet->AjouterFin(new TrajetSimple(depart, arrivee, moyen));
-    while (choice != 0)
+}
+
+void Catalogue::FichierVersCatalogue()
+{
+    int choix;
+    do
     {
-        strcpy(depart, arrivee);
-        cout << "Choix de l'arrêt suivant (0 pour terminer) : " << endl;
-        cin >> arrivee;
-        if (strcmp(arrivee, "0") == 0)
+        ifstream file;
+        string file_name, chaine, depart, arrivee, line;
+        int nblignes, nbcolonnes, deb, fin;
+        Tab *table;
+        Collection *collection;
+        printCatlogueVersFichierViceVersa();
+        cin >> choix;
+        if (cin.fail())
         {
-            choice = 0;
+            cin.clear();
+            cin.ignore();
+            choix = 0;
+        }
+        cout << "Veuillez saisir le nom du fichier celui-ci doit être au format csv" << endl;
+        cin >> file_name;
+        cout << "Donnez le nb de lignes de ce fichier" << endl;
+        cin >> nblignes;
+        cout << "Donnez le nb de colonnes max dans ce fichier" << endl;
+        cin >> nbcolonnes;
+        file.open(file_name.c_str());
+
+        if (file.is_open())
+        {
+            switch (choix)
+            {
+            case 1:
+
+                table = Catalogue::conversionDonneesVersTableauSansCritere(file, nblignes, nbcolonnes);
+                collection = Catalogue::inseredansCatalogueSansCriteres(table->table, 0, 0, table->nb);
+                c->Afficher();
+                file.close();
+
+                break;
+            case 2:
+                cout << "Saissisez 's' pour choisir de charger exclusivement les trajets simples et 'c' pour choisir de charger les trajets composés" << endl;
+                cin >> chaine;
+                table = Catalogue::conversionDonneesVersTableauSelonTypeTrajet(file, nblignes, nbcolonnes, chaine);
+                collection = Catalogue::inseredansCatalogueSansCriteres(table->table, 0, 0, table->nb);
+                c->Afficher();
+
+                break;
+            case 3:
+                cout << "Saissisez la ville de depart" << endl;
+                cin >> depart;
+                cout << "Saissisez la ville d'arrivee" << endl;
+                cin >> arrivee;
+
+                table = Catalogue::conversionDonneesVersTableauSansCritere(file, nblignes, nbcolonnes);
+                collection = Catalogue::inseredansCatalogueSansSelonVillesDepartArrivee(table->table, 0, 0, table->nb, depart, arrivee);
+                c->Afficher();
+                file.close();
+
+                break;
+            case 4:
+                cout << "Saissisez l'indice du premier trajet" << endl;
+                cin >> deb;
+                cout << "Saissisez l'indice du dernier trajet" << endl;
+                cin >> fin;
+
+                table = Catalogue::conversionDonneesVersTableauSelonSelection(file, nblignes, nbcolonnes, deb, fin);
+                collection = Catalogue::inseredansCatalogueSansCriteres(table->table, 0, 0, table->nb);
+                c->Afficher();
+                file.close();
+
+            }
         }
         else
         {
-            cout << "Choix du moyen de transport : " << endl;
-            cin >> moyen;
-            listeTrajet->AjouterFin(new TrajetSimple(depart, arrivee, moyen));
+            cout << "Nous n'avons pas réussi à ouvrir le fichier" << endl;
         }
-    }
-    TrajetCompose *trajetCompose = new TrajetCompose(listeTrajet);
-    c->AjouterFin(trajetCompose);
+
+    } while (choix != 5);
 }
 
 Tab *Catalogue::conversionDonneesVersTableauSansCritere(ifstream &file, int nblignes, int nbcolonnes)
@@ -714,7 +707,7 @@ Tab *Catalogue::conversionDonneesVersTableauSelonTypeTrajet(ifstream &file, int 
     return tab;
 }
 
-Collection *Catalogue::rec2(string **tableau, int abs, int colonne, int nblignes)
+Collection *Catalogue::inseredansCatalogueSansCriteres(string **tableau, int abs, int colonne, int nblignes)
 {
     Collection *collection = new Collection;
     for (int i = abs; i < nblignes; i++)
@@ -730,10 +723,10 @@ Collection *Catalogue::rec2(string **tableau, int abs, int colonne, int nblignes
         }
         else if (tableau[i][colonne] == "c")
         { // on definit une
-            collection->AjouterFin(new TrajetCompose(Catalogue::rec2(tableau, i + 1, colonne + 1, nblignes)));
+            collection->AjouterFin(new TrajetCompose(Catalogue::inseredansCatalogueSansCriteres(tableau, i + 1, colonne + 1, nblignes)));
             if (colonne == 0)
             {
-                c->AjouterFin(new TrajetCompose(Catalogue::rec2(tableau, i + 1, colonne + 1, nblignes)));
+                c->AjouterFin(new TrajetCompose(Catalogue::inseredansCatalogueSansCriteres(tableau, i + 1, colonne + 1, nblignes)));
             }
         }
         else if (tableau[i][colonne].length() > 1)
@@ -744,7 +737,7 @@ Collection *Catalogue::rec2(string **tableau, int abs, int colonne, int nblignes
     return collection;
 }
 
-Collection *Catalogue::recsel(string **tableau, int abs, int colonne, int nblignes, string depart, string arrivee)
+Collection *Catalogue::inseredansCatalogueSansSelonVillesDepartArrivee(string **tableau, int abs, int colonne, int nblignes, string depart, string arrivee)
 {
     Collection *collection = new Collection;
     for (int i = abs; i < nblignes; i++)
@@ -759,11 +752,11 @@ Collection *Catalogue::recsel(string **tableau, int abs, int colonne, int nblign
             }
         }
         else if (tableau[i][colonne] == "c")
-        { // on definit une
-            collection->AjouterFin(new TrajetCompose(Catalogue::rec2(tableau, i + 1, colonne + 1, nblignes)));
+        {
+            collection->AjouterFin(new TrajetCompose(Catalogue::inseredansCatalogueSansCriteres(tableau, i + 1, colonne + 1, nblignes)));
             if (colonne == 0 && strcmp(depart.c_str(), tableau[i][colonne + 1].c_str()) == 0 && strcmp(arrivee.c_str(), tableau[i][colonne + 2].c_str()) == 0)
             {
-                c->AjouterFin(new TrajetCompose(Catalogue::rec2(tableau, i + 1, colonne + 1, nblignes)));
+                c->AjouterFin(new TrajetCompose(Catalogue::inseredansCatalogueSansCriteres(tableau, i + 1, colonne + 1, nblignes)));
             }
         }
         else if (tableau[i][colonne].length() > 1)

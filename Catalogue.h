@@ -5,6 +5,7 @@
 
 //-------------------------------------------------------- Interfaces utilisées
 #include "Collection.h"
+#include "tab.h"
 
 //------------------------------------------------------------- Constantes
 const char SEP = ';';
@@ -15,11 +16,6 @@ using namespace std;
 // Rôle de la classe <Catalogue>
 // Description :
 //------------------------------------------------------------------------//
-struct Tab
-{
-    string **table;
-    int nb;
-};
 
 class Catalogue
 {
@@ -80,48 +76,49 @@ protected:
     void ajoutTrajetSimple();
     // Mode d'emploi : Ajoute un trajet simple au catalogue
     // Contrat
-    Tab *conversionDonneesVersTableauSelonSelection(ifstream &file, int nblignes, int nbcolonnes,int debut,int fin);
 
     void ajoutTrajetCompose();
-    Tab *conversionDonneesVersTableauSansCritere(ifstream &file, int nblignes, int nbcolonnes);
-    
-    Collection *recsel(string **tableau, int abs, int colonne, int nblignes, string depart, string arrivee);
-
-    Tab *conversionDonneesVersTableauSelonTypeTrajet(ifstream &file, int nblignes, int nbcolonnes, string chaine);
-
-    Tab *conversionDonneesVersTableauSelonVilles(ifstream &file, int nblignes, int nbcolonnes, string depart, string arrivee);
-
-    string **conversionDonneesVersTableauSelonTypeTrajet(ifstream &file, int nblignes, int nbcolonnes);
-
-    Collection *rec2(string **tableau, int abs, int colonne, int nblignes);
-
-    void choixSauvegarde();
-    // Mode d'emploi : Selection du scénario pour la sauvegarde
+    // Mode d'emploi : Ajoute un trajet composé au catalogue
     // Contrat : Aucun
-
-    void FichierVersCatalogueSelonTypeTrajet(ifstream &file, int nblignes, int nbcolonnes, int nb);
 
     void printCatlogueVersFichierViceVersa();
     // Mode d'emploi : Affiche le menu de chargement du fichier vers le catalogue et vice versa
     // Contrat : Aucun
 
-    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue sans critères de sélection
-    // Contrat : Aucun
     void FichierVersCatalogue();
+    // Mode d'emploi : Gère le menu du chargement des données depuis le fichier vers le catalogue
+    // Contrat : Le nb de lignes et de colonnes fournies dans l'entrée doivent être conformes à celles du fichier, Le debut et la fin doivent être restreints dans ce la plage existante  en commençant à 1
 
-    void FichierVersCatalogueSansCriteres(ifstream &file, int nblignes, int nbcolonnes);
-
-    void FichierVersCatalogueSelonTypeTrajet();
-    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon le type de trajet
+    void CatalogueVersFichier();
+    // Mode d'emploi : Gère le menu du chargement des données depuis le catalogue vers le fichier
     // Contrat : Aucun
 
-    void FichierVersCatalogueSelonVilles();
-    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon la ville de départ et d'arrivée
+    Tab* conversionDonneesVersTableauSelonSelection(ifstream &file, int nblignes, int nbcolonnes, int debut, int fin);
+    // Mode d'emploi : Charge les données depuis le fichier et les range dans tableau selon une sélection de trajets
+    // Contrat : Le nb de lignes et de colonnes fourni doivent être conformes à ceux du fichier, le debut et la fin doivent être restreints dans ce la plage existante  en commençant à 1
+
+    Tab* conversionDonneesVersTableauSansCritere(ifstream &file, int nblignes, int nbcolonnes);
+    // Mode d'emploi : Charge les données depuis le fichier et les range dans tableau dans leur intégralité 
+    // Contrat : Le nb de lignes et de colonnes fourni doivent être conformes à ceux du fichier
+
+    Tab* conversionDonneesVersTableauSelonTypeTrajet(ifstream &file, int nblignes, int nbcolonnes, string chaine);
+    // Mode d'emploi : Charge les données depuis le fichier et les range dans tableau selon le type de trajet
+    // Contrat : Le nb de lignes et de colonnes fourni doivent être conformes à ceux du fichier
+
+    Collection* inseredansCatalogueSansCriteres(string** tableau, int abs, int colonne, int nblignes);
+    // Mode d'emploi : Charge dans le catalogue les chemins en les créant depuis le tableau pris en entrée sans aucun critère de sélection
+    // Contrat : Le nb de lignes et de colonnes fourni doivent être conformes à ceux du tableau
+
+    Collection* inseredansCatalogueSansSelonVillesDepartArrivee(string **tableau, int abs, int colonne, int nblignes, string depart, string arrivee);
+    // Mode d'emploi : Charge dans le catalogue les chemins en les créant depuis le tableau pris en entrée en spécifiant la ville de départ et la ville et celle d'arrivée
+    // Contrat : Le nb de lignes et de colonnes fourni doivent être conformes à ceux du tableau 
+
+    bool verifieSiExisteCatalogue(Trajet *unTrajet);
+    // Mode d'emploi : Vérifie si le trajet en paramètre existe ou pas dans le catalogue
     // Contrat : Aucun
 
-    void FichierVersCatalogueSelonSelection();
-    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon une sélection de villes
-    // Contrat : Aucun
+    void choixSauvegarde();
+
     //-------------------------------------------------------------Attributs protégés
     Collection *c;
 };
