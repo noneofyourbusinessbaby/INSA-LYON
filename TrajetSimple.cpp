@@ -60,6 +60,11 @@ char* TrajetSimple::getVilleArrivee()
     return villeArrivee;
 }
 
+char* TrajetSimple::getMoyenTransport()
+{
+    return moyenTransport;
+}
+
 TrajetSimple* TrajetSimple::Copie()
 {
     return new TrajetSimple(villeDepart,villeArrivee,moyenTransport);

@@ -33,6 +33,15 @@ char* TrajetCompose::getVilleArrivee()
     return this->listeTrajets->GetTail()->t->getVilleArrivee();
 }
 
+char* TrajetCompose::getMoyenTransport()
+{
+    return nullptr;
+}
+
+Collection* TrajetCompose::getLesTrajets()
+{
+    return this->listeTrajets;
+}
 //------------------------------------------------- Surcharge d'opérateurs
 
 //-------------------------------------------- Constructeurs - destructeur

@@ -7,7 +7,7 @@
 #include "Collection.h"
 
 //------------------------------------------------------------- Constantes
-
+const char SEP = ';';
 //------------------------------------------------------------------ Types
 #include <string>
 using namespace std;
@@ -39,7 +39,11 @@ public:
 
     void RechercherTrajet();
 
-    //---------------------------------------------------------------Surcharge d'opérateurs
+    void SauvegardeCompose(ofstream&, Trajet*, int, int, char*, char*);
+
+    void Sauvegarde();
+
+//---------------------------------------------------------------Surcharge d'opérateurs
 
     //-----------------------------------------------------Constructeurs - Destructeur
     Catalogue(Catalogue const &unCatalogue);
@@ -91,8 +95,8 @@ protected:
 
     Collection *rec2(string **tableau, int abs, int colonne, int nblignes);
 
-    bool verifieSiExisteCatalogue(Trajet *unTrajet);
-    // Mode d'emploi : Ajoute un trajet composé au catalogue
+    void choixSauvegarde();
+    // Mode d'emploi : Selection du scénario pour la sauvegarde
     // Contrat : Aucun
 
     void FichierVersCatalogueSelonTypeTrajet(ifstream &file, int nblignes, int nbcolonnes, int nb);
@@ -104,8 +108,6 @@ protected:
     // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue sans critères de sélection
     // Contrat : Aucun
     void FichierVersCatalogue();
-
-    void CatalogueVersFichier();
 
     void FichierVersCatalogueSansCriteres(ifstream &file, int nblignes, int nbcolonnes);
 
@@ -120,23 +122,6 @@ protected:
     void FichierVersCatalogueSelonSelection();
     // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon une sélection de villes
     // Contrat : Aucun
-
-    void CatalogueVersFichierSansCriteres();
-    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue sans critères de sélection
-    // Contrat : Aucun
-
-    void CatalogueVersFichierSelonTypeTrajet();
-    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon le type de trajet
-    // Contrat : Aucun
-
-    void CatalogueVersFichierSelonVilles();
-    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon la ville de départ et d'arrivée
-    // Contrat : Aucun
-
-    void CatalogueVersFichierSelonSelection();
-    // Mode d'emploi : charge les trajets depuis un fichier vers le catalogue selon une sélection de villes
-    // Contrat : Aucun
-
     //-------------------------------------------------------------Attributs protégés
     Collection *c;
 };
