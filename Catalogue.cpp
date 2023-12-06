@@ -356,7 +356,6 @@ void Catalogue::Sauvegarde()
                             SauvegardeCompose(fic, head->t, 0);
                         }
                         while(head->t != tail->t && compteur <= m);     
-
                     }
                     fic.close();
                 } else {
@@ -388,7 +387,7 @@ void Catalogue::RechercherTrajet()
     cin >> depart;
     cout << "Choix de la ville d'arrivée : " << endl;
     cin >> arrivee;
-//    c->RechercheSimple(depart, arrivee);
+    //c->RechercheSimple(depart, arrivee);
     c->RechercheComplexe(depart, arrivee);
     cin >> ws;
     cout << "Appuyez sur entrée pour continuer" << endl;

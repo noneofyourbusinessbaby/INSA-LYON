@@ -9,16 +9,18 @@
 //------------------------------------------------------------- Constantes
 const char SEP = ';';
 //------------------------------------------------------------------ Types
-//------------------------------------------------------------------------//
+
 // Rôle de la classe <Catalogue>
 // Description :
-//------------------------------------------------------------------------//
+
 
 class Catalogue
 {
 //----------------------------------------------------------------- PUBLIC
+
 public:
 //-----------------------------------------------------------------Méthodes publiques
+
 
     void Afficher();
     // Mode d'emploi : Affiche le contenu du catalogue
@@ -36,8 +38,6 @@ public:
 
     void Sauvegarde();
 
-//---------------------------------------------------------------Surcharge d'opérateurs
-
 //-----------------------------------------------------Constructeurs - Destructeur
     Catalogue ( Catalogue const & unCatalogue );
     // Mode d'emploi (constructeur de copie) :
@@ -52,6 +52,7 @@ public:
     // Contrat :
 
 //------------------------------------------------------------------ PRIVE
+
 protected:
 //-----------------------------------------------------------Méthodes protégées
     // type méthode ( liste des paramètres );
@@ -85,9 +86,12 @@ protected:
 //-------------------------------------------------------------Attributs protégés
     Collection *c;
 
+
 };
 
 //-------------------------------- Autres définitions dépendantes de <Classe>
+
+
 
 
 
