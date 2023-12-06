@@ -415,8 +415,6 @@ void Catalogue::FichierVersCatalogue()
         ifstream file;
         string file_name, chaine, depart, arrivee;
         int nblignes, nbcolonnes, deb, fin;
-        Tab *table;
-        Collection *collection;
         cout << "Donnez le nb de lignes de ce fichier" << endl;
         cin >> nblignes;
         cout << "Donnez le nb de colonnes max dans ce fichier" << endl;
@@ -430,7 +428,7 @@ void Catalogue::FichierVersCatalogue()
             if (file.is_open())
             {
                 Tab *table = Catalogue::conversionDonneesVersTableauSansCritere(file, nblignes, nbcolonnes);
-                Collection *collection = Catalogue::rec2(table->table, 0, 0, table->nb);
+                Catalogue::rec2(table->table, 0, 0, table->nb);
                 c->Afficher();
                 file.close();
             }
@@ -443,7 +441,7 @@ void Catalogue::FichierVersCatalogue()
                 cout << "Saissisez 's' pour choisir de charger exclusivement les trajets simples et 'c' pour choisir de charger les trajets composés" << endl;
                 cin >> chaine;
                 Tab *table = Catalogue::conversionDonneesVersTableauSelonTypeTrajet(file, nblignes, nbcolonnes, chaine);
-                Collection *collection = Catalogue::rec2(table->table, 0, 0, table->nb);
+                Catalogue::rec2(table->table, 0, 0, table->nb);
                 c->Afficher();
             }
             break;
@@ -455,7 +453,7 @@ void Catalogue::FichierVersCatalogue()
             if (file.is_open())
             {
                 Tab *table = Catalogue::conversionDonneesVersTableauSansCritere(file, nblignes, nbcolonnes);
-                Collection *collection = Catalogue::recsel(table->table, 0, 0, table->nb, depart, arrivee);
+                Catalogue::recsel(table->table, 0, 0, table->nb, depart, arrivee);
                 c->Afficher();
                 file.close();
             }
@@ -470,7 +468,7 @@ void Catalogue::FichierVersCatalogue()
             if (file.is_open())
             {
                 Tab *table = Catalogue::conversionDonneesVersTableauSelonSelection(file, nblignes, nbcolonnes, deb, fin);
-                Collection *collection = Catalogue::rec2(table->table, 0, 0, table->nb);
+                Catalogue::rec2(table->table, 0, 0, table->nb);
                 c->Afficher();
                 file.close();
             }
@@ -517,18 +515,6 @@ void Catalogue::printMenu()
     cout << "5. Charger le fichier dans le catalogue" << endl;
     cout << "6. Quitter" << endl;
     cout << "Votre choix : ";
-}
-
-void Catalogue::choixSauvegarde()
-{
-    cout << "------------------------------------------" << endl;
-    cout << "CHOIX DU TYPE DE SAUVEGARDE" << endl;
-    cout << "1. Sans critère de sélection" << endl;
-    cout << "2. Selon le type de trajet" << endl;
-    cout << "3. Selon la ville de départ et / ou la ville d'arrivée" << endl;
-    cout << "4. Selon une sélection de trajets" << endl;
-    cout << "5. Quitter" << endl;
-    cout << "Votre choix :";
 }
 
 void Catalogue::choixSauvegarde()

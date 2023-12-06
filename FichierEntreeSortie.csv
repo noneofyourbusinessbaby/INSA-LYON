@@ -1,3 +1,5 @@
-s;Paris;Rennes;Train
-s;Paris;Madrid;Avion
-s;Paris;Oslo;Voiture
+s;Paris;Lyon;Train
+s;Lyon;Rennes;Train
+c;Paris;Rennes
+;s;Paris;Lyon;Train
+;s;Lyon;Rennes;Train

@@ -15,7 +15,7 @@ using namespace std;
 // Rôle de la classe <Catalogue>
 // Description :
 //------------------------------------------------------------------------//
-typedef struct Tab
+struct Tab
 {
     string **table;
     int nb;
@@ -39,11 +39,7 @@ public:
 
     void RechercherTrajet();
 
-    void SauvegardeCompose(ofstream&, Trajet*, int, int, char*, char*);
-
-    void Sauvegarde();
-
-    void SauvegardeCompose(ofstream&, Trajet*, int, int, char*, char*);
+    void SauvegardeRecursif(ofstream&, Trajet*, int, int, char*, char*);
 
     void Sauvegarde();
 
