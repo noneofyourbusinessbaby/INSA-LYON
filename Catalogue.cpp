@@ -459,3 +459,43 @@ Collection *Catalogue::inseredansCatalogueSansSelonVillesDepartArrivee(string **
     }
     return collection;
 }
+
+
+bool Catalogue::verifieSiExisteCatalogue(Collection *uneCollection,Collection* uneCollectionCatalogue)
+{
+    Cellule *current1 = uneCollection->GetHead();
+    Cellule *current2 = uneCollectionCatalogue->GetHead();
+    bool var;
+    while (current1 != nullptr && current2!=nullptr && var)
+    {   
+        TrajetSimple *ptr1 = dynamic_cast<TrajetSimple *>(current1->t);
+        TrajetSimple *ptr2 = dynamic_cast<TrajetSimple *>(current2->t);
+        if (ptr1 != nullptr && ptr2 != nullptr) // le deux trajets sont simples
+        {
+            if (strcmp(current1->t->getVilleArrivee(), current1->t->getVilleArrivee()) != 0 || strcmp(current2->t->getVilleArrivee(), current2->t->getVilleArrivee()) != 0)
+            {
+                var = false;
+            }
+        }
+        else if (ptr1 == nullptr and ptr2 == nullptr) // les deux sont composés
+        {
+            if (strcmp(current1->t->getVilleArrivee(), current1->t->getVilleArrivee()) == 0 && strcmp(current2->t->getVilleArrivee(), current2->t->getVilleArrivee()) == 0)
+            {
+                var = Catalogue::verifieSiExisteCatalogue(current2->t); // il faut accéder aux éléments de t qui est une collection de trajets 
+            }
+            else
+            {
+                var = false
+            }
+        }
+
+        else
+        {
+            var = false; // si à un même niveau c'est différent on retourne un pointeur null
+        }
+
+        current1 = current1->suivant;
+        current2 = current2->suivant;
+    }
+    return var;
+}
