@@ -531,6 +531,18 @@ void Catalogue::choixSauvegarde()
     cout << "Votre choix :";
 }
 
+void Catalogue::choixSauvegarde()
+{
+    cout << "------------------------------------------" << endl;
+    cout << "CHOIX DU TYPE DE SAUVEGARDE" << endl;
+    cout << "1. Sans critère de sélection" << endl;
+    cout << "2. Selon le type de trajet" << endl;
+    cout << "3. Selon la ville de départ et / ou la ville d'arrivée" << endl;
+    cout << "4. Selon une sélection de trajets" << endl;
+    cout << "5. Quitter" << endl;
+    cout << "Votre choix :";
+}
+
 void Catalogue::ajoutTrajetSimple()
 {
     char depart[100];

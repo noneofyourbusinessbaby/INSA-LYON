@@ -43,6 +43,10 @@ public:
 
     void Sauvegarde();
 
+    void SauvegardeCompose(ofstream&, Trajet*, int, int, char*, char*);
+
+    void Sauvegarde();
+
 //---------------------------------------------------------------Surcharge d'opérateurs
 
     //-----------------------------------------------------Constructeurs - Destructeur
