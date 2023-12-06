@@ -411,20 +411,24 @@ void Catalogue::FichierVersCatalogue()
             cin.ignore();
             choix = 0;
         }
+        if(choix == 5)
+        {
+            Menu();
+        }
         string line;
         ifstream file;
         string file_name, chaine, depart, arrivee;
         int nblignes, nbcolonnes, deb, fin;
-        cout << "Donnez le nb de lignes de ce fichier" << endl;
-        cin >> nblignes;
-        cout << "Donnez le nb de colonnes max dans ce fichier" << endl;
-        cin >> nbcolonnes;
-        cout << "Veuillez saisir le nom du fichier celui-ci doit être au format csv" << endl;
-        cin >> file_name;
         file.open(file_name.c_str());
         switch (choix)
         {
         case 1:
+            cout << "Donnez le nb de lignes de ce fichier" << endl;
+            cin >> nblignes;
+            cout << "Donnez le nb de colonnes max dans ce fichier" << endl;
+            cin >> nbcolonnes;
+            cout << "Veuillez saisir le nom du fichier celui-ci doit être au format csv (ex:demo.csv)" << endl;
+            cin >> file_name;
             if (file.is_open())
             {
                 Tab *table = Catalogue::conversionDonneesVersTableauSansCritere(file, nblignes, nbcolonnes);
@@ -432,10 +436,17 @@ void Catalogue::FichierVersCatalogue()
                 c->Afficher();
                 file.close();
             }
-            else
+            else {
                 cout << "Nous n'avons pas réussi à ouvrir le fichier" << endl;
+            }
             break;
         case 2:
+            cout << "Donnez le nb de lignes de ce fichier" << endl;
+            cin >> nblignes;
+            cout << "Donnez le nb de colonnes max dans ce fichier" << endl;
+            cin >> nbcolonnes;
+            cout << "Veuillez saisir le nom du fichier celui-ci doit être au format csv (ex:demo.csv)" << endl;
+            cin >> file_name;
             if (file.is_open())
             {
                 cout << "Saissisez 's' pour choisir de charger exclusivement les trajets simples et 'c' pour choisir de charger les trajets composés" << endl;
@@ -446,6 +457,12 @@ void Catalogue::FichierVersCatalogue()
             }
             break;
         case 3:
+            cout << "Donnez le nb de lignes de ce fichier" << endl;
+            cin >> nblignes;
+            cout << "Donnez le nb de colonnes max dans ce fichier" << endl;
+            cin >> nbcolonnes;
+            cout << "Veuillez saisir le nom du fichier celui-ci doit être au format csv (ex:demo.csv)" << endl;
+            cin >> file_name;
             cout << "Saissisez la ville de depart" << endl;
             cin >> depart;
             cout << "Saissisez la ville d'arrivee" << endl;
@@ -457,10 +474,17 @@ void Catalogue::FichierVersCatalogue()
                 c->Afficher();
                 file.close();
             }
-            else
+            else {
                 cout << "Nous n'avons pas réussi à ouvrir le fichier" << endl;
+            } 
             break;
         case 4:
+            cout << "Donnez le nb de lignes de ce fichier" << endl;
+            cin >> nblignes;
+            cout << "Donnez le nb de colonnes max dans ce fichier" << endl;
+            cin >> nbcolonnes;
+            cout << "Veuillez saisir le nom du fichier celui-ci doit être au format csv (ex:demo.csv)" << endl;
+            cin >> file_name;
             cout << "Saissisez l'indice du premier trajet" << endl;
             cin >> deb;
             cout << "Saissisez l'indice du dernier trajet" << endl;
@@ -472,13 +496,15 @@ void Catalogue::FichierVersCatalogue()
                 c->Afficher();
                 file.close();
             }
-            else
+            else {
                 cout << "Nous n'avons pas réussi à ouvrir le fichier" << endl;
+            }   
             break;
         case 5:
             break;
         default:
             cout << "Erreur de saisie" << endl;
+            break;
         }
 
     } while (choix != 5);

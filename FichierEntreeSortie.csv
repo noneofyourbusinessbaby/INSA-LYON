@@ -3,3 +3,9 @@ s;Lyon;Rennes;Train
 c;Paris;Rennes
 ;s;Paris;Lyon;Train
 ;s;Lyon;Rennes;Train
+s;Tours;Paris;Train
+c;Tours;Rennes
+;s;Tours;Paris;Train
+;c;Paris;Rennes
+;;s;Paris;Lyon;Train
+;;s;Lyon;Rennes;Train
